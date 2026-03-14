@@ -394,7 +394,17 @@ function replayAnimation() {
 function copyShareLink() {
   if (!currentLetter) return;
   
-  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${currentLetter.id}`;
+  // 将信件数据编码到URL中
+  const letterData = {
+    t: currentLetter.title,
+    d: currentLetter.date,
+    c: currentLetter.content,
+    s: currentLetter.coverStyle
+  };
+  
+  // 使用Base64编码信件数据
+  const encodedData = btoa(encodeURIComponent(JSON.stringify(letterData)));
+  const shareUrl = `${window.location.origin}${window.location.pathname}?letter=${encodedData}`;
   
   if (navigator.clipboard) {
     navigator.clipboard.writeText(shareUrl).then(() => {
@@ -419,14 +429,62 @@ function fallbackCopy(text) {
 
 function checkSharedLetter() {
   const urlParams = new URLSearchParams(window.location.search);
-  const letterId = urlParams.get('id');
+  const letterData = urlParams.get('letter');
   
-  if (letterId) {
+  if (letterData) {
     // 延迟一点，确保页面加载完成
     setTimeout(() => {
-      openLetter(letterId);
+      try {
+        // 解码信件数据
+        const decodedData = JSON.parse(decodeURIComponent(atob(letterData)));
+        const sharedLetter = {
+          id: 'shared_' + Date.now(),
+          title: decodedData.t,
+          date: decodedData.d,
+          content: decodedData.c,
+          coverStyle: decodedData.s || 0,
+          preview: decodedData.c.substring(0, 60) + (decodedData.c.length > 60 ? '...' : ''),
+          opened: false,
+          createdAt: new Date().toISOString()
+        };
+        openSharedLetter(sharedLetter);
+      } catch (e) {
+        console.error('Failed to decode shared letter:', e);
+        showToast('信件链接无效', '⚠️');
+      }
     }, 100);
   }
+}
+
+// 打开分享的信件（不依赖localStorage）
+function openSharedLetter(letter) {
+  currentLetter = letter;
+  
+  // 重置动画状态
+  resetAnimation();
+  
+  // 设置信封样式
+  const style = coverStyles[letter.coverStyle] || coverStyles[0];
+  const envelope3d = document.getElementById('envelope-3d');
+  envelope3d.className = `envelope-3d cover-${letter.coverStyle}`;
+  
+  // 设置信封内容
+  document.getElementById('env-pattern-text').textContent = style.pattern;
+  document.getElementById('env-stamp-icon').textContent = style.icon;
+  document.getElementById('postmark-date').textContent = letter.date;
+  document.getElementById('paper-preview-text').textContent = letter.title;
+  
+  // 设置信件内容
+  document.getElementById('view-title').textContent = letter.title;
+  document.getElementById('view-date').textContent = letter.date;
+  document.getElementById('view-content').textContent = letter.content;
+  
+  // 显示页面
+  showPage('letter');
+  
+  // 绑定点击打开信封
+  document.getElementById('envelope-scene').onclick = startOpenAnimation;
+  document.getElementById('tap-hint').textContent = '点击打开信封';
 }
 
 // ===== Toast 提示 =====
