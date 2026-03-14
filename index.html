@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>写给宝宝的信</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 背景装饰 -->
+  <div class="bg-decor">
+    <div class="petal petal1">🌸</div>
+    <div class="petal petal2">🌺</div>
+    <div class="petal petal3">🌷</div>
+    <div class="petal petal4">✿</div>
+    <div class="petal petal5">🌸</div>
+    <div class="petal petal6">❀</div>
+  </div>
+
+  <!-- ===== 首页 ===== -->
+  <div id="page-home" class="page">
+    <!-- 顶部标题区 -->
+    <div class="header">
+      <div class="header-decoration">
+        <span class="deco-star">✦</span>
+        <span class="deco-heart">♡</span>
+        <span class="deco-star">✦</span>
+      </div>
+      <div class="title-wrap">
+        <span class="main-title">写给宝宝的信</span>
+        <span class="sub-title">用文字装载每一个想念的瞬间</span>
+      </div>
+      <div class="header-decoration">
+        <span class="deco-star">✦</span>
+        <span class="deco-heart">♡</span>
+        <span class="deco-star">✦</span>
+      </div>
+      <div class="letter-count">
+        <span class="count-num" id="letter-count">0</span>
+        <span class="count-label"> 封信</span>
+      </div>
+    </div>
+
+    <!-- 信件列表 -->
+    <div class="letters-scroll" id="letters-container">
+      <!-- 动态插入信件列表 -->
+    </div>
+
+    <!-- 写信按钮 -->
+    <div class="write-btn-wrap">
+      <button class="write-btn" onclick="showPage('write')">
+        <span class="write-btn-icon">✍️</span>
+        <span class="write-btn-text">写一封信</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 写信页 ===== -->
+  <div id="page-write" class="page hidden">
+    <!-- 背景装饰 -->
+    <div class="write-bg-deco">
+      <span class="deco-flower f1">🌸</span>
+      <span class="deco-flower f2">✿</span>
+      <span class="deco-flower f3">🌷</span>
+    </div>
+
+    <div class="write-scroll">
+      <!-- 顶部提示 -->
+      <div class="write-header">
+        <span class="write-header-quote">"每一封信，都是一颗放飞的心"</span>
+        <div class="write-header-deco">
+          <span>♡</span><span>✦</span><span>♡</span>
+        </div>
+      </div>
+
+      <!-- 信封预览 -->
+      <div class="envelope-preview cover-0" id="envelope-preview">
+        <div class="preview-flap">
+          <span class="preview-heart">♥</span>
+        </div>
+        <div class="preview-body">
+          <div class="preview-stamp">
+            <span id="preview-stamp-icon">🌸</span>
+          </div>
+          <div class="preview-info">
+            <span class="preview-title" id="preview-title">信件标题</span>
+            <span class="preview-date" id="preview-date"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 封面样式选择 -->
+      <div class="section">
+        <div class="section-label">
+          <span class="label-icon">🎨</span>
+          <span class="label-text">选择信封样式</span>
+        </div>
+        <div class="cover-selector" id="cover-selector">
+          <!-- 动态生成 -->
+        </div>
+      </div>
+
+      <!-- 日期 -->
+      <div class="section">
+        <div class="section-label">
+          <span class="label-icon">📅</span>
+          <span class="label-text">写信日期</span>
+        </div>
+        <input type="date" class="date-picker" id="letter-date">
+      </div>
+
+      <!-- 标题 -->
+      <div class="section">
+        <div class="section-label">
+          <span class="label-icon">✏️</span>
+          <span class="label-text">信件标题</span>
+        </div>
+        <input type="text" class="title-input" id="letter-title" placeholder="给这封信起个名字..." maxlength="30">
+      </div>
+
+      <!-- 正文 -->
+      <div class="section">
+        <div class="section-label">
+          <span class="label-icon">💌</span>
+          <span class="label-text">信件内容</span>
+        </div>
+        <div class="content-wrap">
+          <div class="paper-red-line"></div>
+          <textarea class="content-textarea" id="letter-content" placeholder="把想说的话都写在这里吧..." maxlength="5000"></textarea>
+          <div class="content-count">
+            <span id="content-count">0 / 5000</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 80px;"></div>
+    </div>
+
+    <!-- 发送按钮 -->
+    <div class="send-btn-wrap">
+      <button class="send-btn" id="send-btn" onclick="saveLetter()">
+        <span class="send-icon">💌</span>
+        <span class="send-text">寄出这封信</span>
+      </button>
+    </div>
+
+    <!-- 返回按钮 -->
+    <button class="back-btn" onclick="showPage('home')">
+      <span>← 返回</span>
+    </button>
+  </div>
+
+  <!-- ===== 看信页 ===== -->
+  <div id="page-letter" class="page hidden">
+    <!-- 彩纸撒花特效 -->
+    <div class="confetti-layer" id="confetti-layer"></div>
+
+    <!-- 背景花纹 -->
+    <div class="bg-pattern">
+      <div class="bp bp1">🌸</div>
+      <div class="bp bp2">✿</div>
+      <div class="bp bp3">🌷</div>
+      <div class="bp bp4">❀</div>
+    </div>
+
+    <!-- 信封动画阶段 -->
+    <div class="envelope-scene" id="envelope-scene">
+      <div class="envelope-3d" id="envelope-3d">
+        <!-- 信封背面纹路 -->
+        <div class="env-back-pattern">
+          <span class="env-pattern-text" id="env-pattern-text">🌸  🌸  🌸</span>
+        </div>
+
+        <!-- 封口翻盖 -->
+        <div class="env-flap" id="env-flap">
+          <div class="env-flap-front"></div>
+          <div class="env-flap-back">
+            <span class="flap-inner-text">💌</span>
+          </div>
+          <!-- 封口爱心封印 -->
+          <div class="flap-seal" id="flap-seal">
+            <span class="seal-icon">♥</span>
+          </div>
+        </div>
+
+        <!-- 从信封里滑出的信纸 -->
+        <div class="letter-paper" id="letter-paper">
+          <div class="paper-lines">
+            <div class="paper-line"></div>
+            <div class="paper-line"></div>
+            <div class="paper-line"></div>
+            <div class="paper-line"></div>
+            <div class="paper-line"></div>
+          </div>
+          <span class="paper-preview-text" id="paper-preview-text"></span>
+          <span class="paper-heart">♡</span>
+        </div>
+
+        <!-- 信封底部装饰条纹 -->
+        <div class="env-corner env-corner-tl"></div>
+        <div class="env-corner env-corner-tr"></div>
+        <div class="env-corner env-corner-bl"></div>
+        <div class="env-corner env-corner-br"></div>
+
+        <!-- 邮戳 -->
+        <div class="postmark">
+          <div class="postmark-circle">
+            <span class="postmark-date" id="postmark-date"></span>
+            <span class="postmark-text">LOVE</span>
+          </div>
+        </div>
+
+        <!-- 邮票 -->
+        <div class="env-stamp">
+          <div class="env-stamp-inner">
+            <span class="env-stamp-icon" id="env-stamp-icon">🌸</span>
+            <span class="env-stamp-label">LOVE</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="tap-hint" id="tap-hint">点击打开信封</span>
+    </div>
+
+    <!-- 信件内容阶段 -->
+    <div class="letter-content-page" id="letter-content-page">
+      <!-- 信纸背景 -->
+      <div class="paper-bg">
+        <!-- 纸张顶部装饰 -->
+        <div class="paper-header">
+          <div class="paper-deco-row">
+            <span class="paper-deco-item">✦</span>
+            <span class="paper-deco-item heart">♡</span>
+            <span class="paper-deco-item">✦</span>
+            <span class="paper-deco-item heart">♡</span>
+            <span class="paper-deco-item">✦</span>
+          </div>
+          <span class="paper-title" id="view-title"></span>
+          <span class="paper-date" id="view-date"></span>
+        </div>
+
+        <!-- 分割线 -->
+        <div class="paper-divider">
+          <div class="divider-line"></div>
+          <span class="divider-heart">♥</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- 信件正文 -->
+        <div class="paper-content-scroll">
+          <div class="paper-content">
+            <span class="content-text" id="view-content"></span>
+          </div>
+          <div style="height: 30px;"></div>
+        </div>
+
+        <!-- 纸张底部装饰 -->
+        <div class="paper-footer">
+          <div class="footer-deco">
+            <span class="footer-hearts">♡  ♡  ♡</span>
+          </div>
+          <span class="footer-sign">with love ✉️</span>
+        </div>
+      </div>
+
+      <!-- 分享按钮 -->
+      <button class="share-btn" id="share-btn" onclick="copyShareLink()">
+        <span>🔗 复制分享链接</span>
+      </button>
+
+      <!-- 重播按钮 -->
+      <button class="replay-btn" onclick="replayAnimation()">
+        <span>🔄 重新拆信封</span>
+      </button>
+    </div>
+
+    <!-- 返回按钮 -->
+    <button class="back-btn" onclick="showPage('home')">
+      <span>← 返回首页</span>
+    </button>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">✓</span>
+    <span class="toast-text" id="toast-text"></span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

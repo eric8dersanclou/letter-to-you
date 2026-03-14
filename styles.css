@@ -1,0 +1,1377 @@
+/* ===== 基础重置 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: linear-gradient(160deg, #fff0f7 0%, #ffe8f2 40%, #ffdaec 100%);
+  overflow: hidden;
+}
+
+button {
+  border: none;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ===== 页面容器 ===== */
+.page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.page.hidden {
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===== 背景装饰 ===== */
+.bg-decor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.petal {
+  position: absolute;
+  font-size: 14px;
+  opacity: 0.18;
+  animation: floatPetal linear infinite;
+}
+
+.petal1 { left: 5%; top: 10%; animation-duration: 8s; animation-delay: 0s; font-size: 16px; }
+.petal2 { left: 80%; top: 15%; animation-duration: 10s; animation-delay: 2s; }
+.petal3 { left: 20%; top: 60%; animation-duration: 7s; animation-delay: 1s; }
+.petal4 { left: 65%; top: 55%; animation-duration: 9s; animation-delay: 3s; font-size: 12px; }
+.petal5 { left: 45%; top: 25%; animation-duration: 11s; animation-delay: 4s; font-size: 18px; }
+.petal6 { left: 90%; top: 75%; animation-duration: 6s; animation-delay: 1.5s; }
+
+@keyframes floatPetal {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.18; }
+  50% { transform: translateY(-15px) rotate(180deg); opacity: 0.25; }
+  100% { transform: translateY(0) rotate(360deg); opacity: 0.18; }
+}
+
+/* ===== 首页 ===== */
+.header {
+  position: relative;
+  z-index: 1;
+  padding: 25px 20px 15px;
+  text-align: center;
+}
+
+.header-decoration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.deco-star {
+  font-size: 11px;
+  color: #ffadc7;
+  animation: sparkleAnim 2s ease-in-out infinite;
+}
+
+.deco-star:last-child {
+  animation-delay: 0.5s;
+}
+
+.deco-heart {
+  font-size: 14px;
+  color: #ff85a1;
+  animation: heartBeat 1.8s ease-in-out infinite;
+}
+
+@keyframes sparkleAnim {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.25); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+}
+
+.title-wrap {
+  margin: 8px 0;
+}
+
+.main-title {
+  display: block;
+  font-size: 26px;
+  font-weight: bold;
+  color: #d4607a;
+  letter-spacing: 3px;
+  text-shadow: 0 1px 4px rgba(212, 96, 122, 0.2);
+}
+
+.sub-title {
+  display: block;
+  font-size: 12px;
+  color: #e8869c;
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+
+.letter-count {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: baseline;
+  background: rgba(255, 182, 193, 0.35);
+  border-radius: 15px;
+  padding: 4px 14px;
+  border: 1px solid rgba(255, 182, 193, 0.6);
+}
+
+.count-num {
+  font-size: 21px;
+  font-weight: bold;
+  color: #d4607a;
+}
+
+.count-label {
+  font-size: 12px;
+  color: #e8869c;
+}
+
+/* 信件列表 */
+.letters-scroll {
+  position: relative;
+  z-index: 1;
+  height: calc(100vh - 160px);
+  padding: 0 15px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 年份分割 */
+.year-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0 12px;
+}
+
+.year-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffb6c1, transparent);
+}
+
+.year-badge {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9eb5, #ffb6c1);
+  border-radius: 15px;
+  padding: 4px 14px;
+  margin: 0 8px;
+  box-shadow: 0 2px 8px rgba(255, 150, 173, 0.35);
+}
+
+.year-text {
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.year-deco {
+  font-size: 11px;
+  margin-left: 2px;
+}
+
+/* 信件网格 */
+.letters-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+
+/* 信封卡片 */
+.envelope-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: visible;
+  box-shadow: 0 4px 15px rgba(220, 100, 130, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: #fff;
+  cursor: pointer;
+}
+
+.envelope-card:active {
+  transform: scale(0.97) translateY(1px);
+  box-shadow: 0 2px 8px rgba(220, 100, 130, 0.15);
+}
+
+/* 不同信封颜色主题 */
+.cover-0 { background: linear-gradient(145deg, #ffe0ec, #ffb6cd); }
+.cover-1 { background: linear-gradient(145deg, #ffe8f5, #ffc0d8); }
+.cover-2 { background: linear-gradient(145deg, #ffd6e8, #ffaac5); }
+.cover-3 { background: linear-gradient(145deg, #ffeaf2, #ffc8db); }
+.cover-4 { background: linear-gradient(145deg, #ffd8ed, #ff9fc0); }
+
+/* 信封背景花纹 */
+.envelope-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 8px 0;
+  opacity: 0.25;
+  letter-spacing: 6px;
+  font-size: 11px;
+}
+
+/* 信封封口（三角形翻盖） */
+.envelope-flap {
+  position: relative;
+  height: 50px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.envelope-flap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 170px solid transparent;
+  border-right: 170px solid transparent;
+  border-top: 50px solid rgba(255, 255, 255, 0.3);
+}
+
+.flap-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+  z-index: 2;
+}
+
+.flap-heart {
+  font-size: 18px;
+  color: rgba(212, 96, 122, 0.7);
+  text-shadow: 0 1px 4px rgba(212, 96, 122, 0.3);
+}
+
+/* 信封主体 */
+.envelope-body {
+  padding: 8px 14px 12px;
+  position: relative;
+}
+
+/* 信封两侧斜线装饰 */
+.envelope-body::before,
+.envelope-body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 182, 193, 0.5) 0px,
+    rgba(255, 182, 193, 0.5) 4px,
+    transparent 4px,
+    transparent 7px
+  );
+}
+
+.envelope-body::before { left: 0; }
+.envelope-body::after { right: 0; }
+
+/* 邮票 */
+.stamp {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  width: 32px;
+  height: 36px;
+  border: 2px solid rgba(212, 96, 122, 0.5);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 邮票锯齿边 */
+.stamp::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: 
+    radial-gradient(circle at 0 0, transparent 3px, rgba(255, 210, 225, 0.8) 3px) top left,
+    radial-gradient(circle at 100% 0, transparent 3px, rgba(255, 210, 225, 0.8) 3px) top right,
+    radial-gradient(circle at 0 100%, transparent 3px, rgba(255, 210, 225, 0.8) 3px) bottom left,
+    radial-gradient(circle at 100% 100%, transparent 3px, rgba(255, 210, 225, 0.8) 3px) bottom right;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.stamp-inner {
+  font-size: 14px;
+}
+
+/* 信件信息 */
+.letter-info {
+  padding-right: 40px;
+}
+
+.letter-date {
+  display: block;
+  font-size: 11px;
+  color: #d4607a;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.letter-title {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  color: #b5415e;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.letter-preview {
+  display: block;
+  font-size: 12px;
+  color: #c07080;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 底部爱心装饰 */
+.envelope-bottom-deco {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.bottom-hearts {
+  font-size: 11px;
+  color: rgba(212, 96, 122, 0.5);
+  letter-spacing: 4px;
+}
+
+/* 已读标记 */
+.read-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(255, 182, 193, 0.6);
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: #d4607a;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.empty-icon {
+  font-size: 50px;
+  margin-bottom: 15px;
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.empty-text {
+  font-size: 18px;
+  color: #d4607a;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: #e8869c;
+}
+
+/* 写信按钮 */
+.write-btn-wrap {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.write-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #ff85a1, #ff5c8a);
+  border-radius: 30px;
+  padding: 12px 35px;
+  box-shadow: 0 4px 15px rgba(255, 92, 138, 0.45), 0 0 0 3px rgba(255, 182, 193, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.write-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(255, 92, 138, 0.35);
+}
+
+.write-btn-icon {
+  font-size: 18px;
+}
+
+.write-btn-text {
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* ===== 写信页 ===== */
+.write-bg-deco {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.deco-flower {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0.12;
+  animation: floatFlower 6s ease-in-out infinite;
+}
+
+.f1 { left: 10%; top: 20%; animation-delay: 0s; }
+.f2 { left: 85%; top: 30%; animation-delay: 2s; }
+.f3 { left: 75%; top: 70%; animation-delay: 4s; }
+
+@keyframes floatFlower {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(15deg); }
+}
+
+.write-scroll {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.write-header {
+  text-align: center;
+  padding: 20px 0 15px;
+}
+
+.write-header-quote {
+  display: block;
+  font-size: 14px;
+  color: #d4607a;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.write-header-deco {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  color: #ffadc7;
+  font-size: 12px;
+}
+
+/* 信封预览 */
+.envelope-preview {
+  width: 200px;
+  margin: 0 auto 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(220, 100, 130, 0.25);
+  transition: all 0.3s;
+}
+
+.preview-flap {
+  position: relative;
+  height: 40px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.preview-flap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-top: 40px solid rgba(255, 255, 255, 0.35);
+}
+
+.preview-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+  font-size: 16px;
+  color: rgba(212, 96, 122, 0.7);
+}
+
+.preview-body {
+  padding: 10px 15px 15px;
+  position: relative;
+}
+
+.preview-stamp {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 28px;
+  height: 32px;
+  border: 2px solid rgba(212, 96, 122, 0.4);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+}
+
+.preview-info {
+  padding-right: 35px;
+}
+
+.preview-title {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #b5415e;
+  margin-bottom: 4px;
+}
+
+.preview-date {
+  display: block;
+  font-size: 11px;
+  color: #d4607a;
+}
+
+/* 表单区域 */
+.section {
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.label-icon {
+  font-size: 16px;
+}
+
+.label-text {
+  font-size: 14px;
+  color: #d4607a;
+  font-weight: 500;
+}
+
+/* 封面选择器 */
+.cover-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cover-option {
+  width: 60px;
+  height: 70px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.cover-option.cover-selected {
+  border-color: #ff5c8a;
+  box-shadow: 0 2px 8px rgba(255, 92, 138, 0.3);
+}
+
+.cover-icon {
+  font-size: 20px;
+}
+
+.cover-name {
+  font-size: 10px;
+  color: #b5415e;
+}
+
+.cover-check {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  background: #ff5c8a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 10px;
+}
+
+/* 日期选择器 */
+.date-picker {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 182, 193, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  color: #d4607a;
+  outline: none;
+}
+
+/* 标题输入 */
+.title-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 182, 193, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  color: #b5415e;
+  outline: none;
+}
+
+.title-input::placeholder {
+  color: #e8869c;
+}
+
+/* 内容输入 */
+.content-wrap {
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 182, 193, 0.5);
+  min-height: 200px;
+}
+
+.paper-red-line {
+  position: absolute;
+  left: 30px;
+  top: 15px;
+  bottom: 15px;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 150, 150, 0.4) 0px,
+    rgba(255, 150, 150, 0.4) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.content-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 15px 15px 15px 45px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #b5415e;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+}
+
+.content-textarea::placeholder {
+  color: #e8869c;
+}
+
+.content-count {
+  text-align: right;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #e8869c;
+  border-top: 1px solid rgba(255, 182, 193, 0.3);
+}
+
+/* 发送按钮 */
+.send-btn-wrap {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #ff85a1, #ff5c8a);
+  border-radius: 30px;
+  padding: 14px 40px;
+  box-shadow: 0 4px 15px rgba(255, 92, 138, 0.45);
+  transition: all 0.3s;
+}
+
+.send-btn.sending {
+  background: linear-gradient(135deg, #ffb6c1, #ff85a1);
+  pointer-events: none;
+}
+
+.send-btn:active {
+  transform: scale(0.95);
+}
+
+.send-icon {
+  font-size: 18px;
+}
+
+.send-text {
+  font-size: 15px;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* 返回按钮 */
+.back-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 13px;
+  color: #d4607a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* ===== 看信页 ===== */
+.bg-pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bp {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.08;
+  animation: floatPattern 8s ease-in-out infinite;
+}
+
+.bp1 { left: 5%; top: 10%; animation-delay: 0s; }
+.bp2 { left: 85%; top: 20%; animation-delay: 2s; }
+.bp3 { left: 10%; top: 70%; animation-delay: 4s; }
+.bp4 { left: 80%; top: 80%; animation-delay: 6s; }
+
+@keyframes floatPattern {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(10deg); }
+}
+
+/* 彩纸特效 */
+.confetti-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+  display: none;
+}
+
+.confetti-layer.show {
+  display: block;
+}
+
+.confetti-item {
+  position: absolute;
+  top: -30px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* 信封动画场景 */
+.envelope-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity 0.5s;
+}
+
+.envelope-scene.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.envelope-3d {
+  position: relative;
+  width: 280px;
+  height: 180px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(220, 100, 130, 0.3);
+  overflow: visible;
+}
+
+/* 信封背面纹路 */
+.env-back-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  opacity: 0.3;
+  letter-spacing: 8px;
+  font-size: 14px;
+}
+
+/* 封口翻盖 */
+.env-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
+  z-index: 10;
+}
+
+.env-flap.flap-opened {
+  transform: rotateX(180deg);
+}
+
+.env-flap-front {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 90px solid rgba(255, 255, 255, 0.4);
+  backface-visibility: hidden;
+}
+
+.env-flap-back {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotateX(180deg);
+  width: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 90px solid rgba(255, 230, 240, 0.6);
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flap-inner-text {
+  position: absolute;
+  top: -60px;
+  font-size: 24px;
+}
+
+/* 封口爱心封印 */
+.flap-seal {
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #ff85a1, #ff5c8a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(255, 92, 138, 0.4);
+  transition: all 0.3s;
+  z-index: 11;
+}
+
+.flap-seal.seal-break {
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+}
+
+.seal-icon {
+  font-size: 18px;
+  color: #fff;
+}
+
+/* 信纸 */
+.letter-paper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 240px;
+  height: 140px;
+  background: linear-gradient(180deg, #fff 0%, #fff8fa 100%);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  z-index: 5;
+  transition: all 0.8s ease-in-out;
+}
+
+.letter-paper.letter-slide-out {
+  transform: translate(-50%, -130%);
+}
+
+.paper-lines {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.paper-line {
+  height: 1px;
+  background: rgba(255, 182, 193, 0.3);
+  margin-bottom: 20px;
+}
+
+.paper-preview-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #d4607a;
+  font-weight: bold;
+  text-align: center;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paper-heart {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 16px;
+  color: #ffb6c1;
+}
+
+/* 信封角落装饰 */
+.env-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 8;
+}
+
+.env-corner-tl {
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 50%, transparent 50%);
+}
+
+.env-corner-tr {
+  top: 0;
+  right: 0;
+  background: linear-gradient(-135deg, rgba(255,255,255,0.3) 50%, transparent 50%);
+}
+
+.env-corner-bl {
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.3) 50%, transparent 50%);
+}
+
+.env-corner-br {
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(-45deg, rgba(255,255,255,0.3) 50%, transparent 50%);
+}
+
+/* 邮戳 */
+.postmark {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  z-index: 9;
+}
+
+.postmark-circle {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed rgba(212, 96, 122, 0.4);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-15deg);
+}
+
+.postmark-date {
+  font-size: 8px;
+  color: #d4607a;
+}
+
+.postmark-text {
+  font-size: 10px;
+  color: #ff85a1;
+  font-weight: bold;
+}
+
+/* 邮票 */
+.env-stamp {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 48px;
+  border: 2px solid rgba(212, 96, 122, 0.5);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 9;
+}
+
+.env-stamp::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: 
+    radial-gradient(circle at 0 0, transparent 4px, rgba(255, 210, 225, 0.8) 4px) top left,
+    radial-gradient(circle at 100% 0, transparent 4px, rgba(255, 210, 225, 0.8) 4px) top right,
+    radial-gradient(circle at 0 100%, transparent 4px, rgba(255, 210, 225, 0.8) 4px) bottom left,
+    radial-gradient(circle at 100% 100%, transparent 4px, rgba(255, 210, 225, 0.8) 4px) bottom right;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.env-stamp-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.env-stamp-icon {
+  font-size: 18px;
+}
+
+.env-stamp-label {
+  font-size: 8px;
+  color: #d4607a;
+  margin-top: 2px;
+}
+
+/* 点击提示 */
+.tap-hint {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #e8869c;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* 信件内容页 */
+.letter-content-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px 100px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+  z-index: 20;
+}
+
+.letter-content-page.content-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.paper-bg {
+  background: linear-gradient(180deg, #fff 0%, #fff8fa 100%);
+  border-radius: 12px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 20px rgba(220, 100, 130, 0.15);
+  min-height: calc(100vh - 200px);
+}
+
+.paper-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.paper-deco-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.paper-deco-item {
+  font-size: 12px;
+  color: #ffadc7;
+}
+
+.paper-deco-item.heart {
+  color: #ff85a1;
+  animation: heartBeat 1.8s ease-in-out infinite;
+}
+
+.paper-title {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #b5415e;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.paper-date {
+  display: block;
+  font-size: 12px;
+  color: #e8869c;
+}
+
+.paper-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffb6c1, transparent);
+}
+
+.divider-heart {
+  font-size: 14px;
+  color: #ff85a1;
+}
+
+.paper-content-scroll {
+  min-height: 200px;
+}
+
+.paper-content {
+  font-size: 15px;
+  line-height: 2;
+  color: #8b4557;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.paper-footer {
+  margin-top: 30px;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px dashed rgba(255, 182, 193, 0.5);
+}
+
+.footer-deco {
+  margin-bottom: 8px;
+}
+
+.footer-hearts {
+  font-size: 14px;
+  color: #ffb6c1;
+  letter-spacing: 4px;
+}
+
+.footer-sign {
+  font-size: 12px;
+  color: #e8869c;
+  font-style: italic;
+}
+
+/* 分享按钮 */
+.share-btn {
+  display: block;
+  width: 200px;
+  margin: 20px auto 10px;
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  border-radius: 25px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.35);
+  transition: all 0.2s;
+}
+
+.share-btn:active {
+  transform: scale(0.95);
+}
+
+/* 重播按钮 */
+.replay-btn {
+  display: block;
+  width: 160px;
+  margin: 0 auto 30px;
+  padding: 10px 20px;
+  background: rgba(255, 182, 193, 0.3);
+  border-radius: 20px;
+  color: #d4607a;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.replay-btn:active {
+  background: rgba(255, 182, 193, 0.5);
+}
+
+/* ===== Toast 提示 ===== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10000;
+  transition: transform 0.3s;
+}
+
+.toast.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.toast-icon {
+  font-size: 18px;
+}
+
+.toast-text {
+  font-size: 14px;
+  color: #fff;
+}
+
+/* ===== 响应式适配 ===== */
+@media (min-width: 768px) {
+  .page {
+    max-width: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .write-btn-wrap,
+  .send-btn-wrap {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
